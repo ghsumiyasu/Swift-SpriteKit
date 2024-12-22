@@ -10,20 +10,51 @@ import GameplayKit
 
 class GameScene: SKScene {
     
-    private var label : SKLabelNode?
+    var entityManager: SKEntityManager?
+    private var lastUpdateTime : TimeInterval = 0
+    weak var playerEntity: PlayerEntity?
     
-    override func didMove(to view: SKView) {
-        
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
-        }
-
+    override func sceneDidLoad() {
+        entityManager = SKEntityManager(scene: self)
+        let playerEntity = PlayerEntity()
+        entityManager?.add(entity: playerEntity)
+        self.playerEntity = playerEntity
     }
 
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        captureInput(touches: touches)
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        playerEntity?.movementComponent?.change(direction: .none)
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        captureInput(touches: touches)
+    }
+    
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
+        
+        if (self.lastUpdateTime == 0) {
+            self.lastUpdateTime = currentTime
+        }
+        let dt = currentTime - self.lastUpdateTime
+            
+        if let entities = entityManager?.entities {
+            for entity in entities {
+                entity.update(deltaTime: dt)
+            }
+        }
+        
+        self.lastUpdateTime = currentTime
+    }
+    public  func captureInput(touches: Set<UITouch>) {
+        if let location = touches.first?.location(in: self) {
+            if location.x <= 0 {
+                playerEntity?.movementComponent?.change(direction: .left)
+            } else {
+                playerEntity?.movementComponent?.change(direction: .right)
+            }
+        }
     }
 }
