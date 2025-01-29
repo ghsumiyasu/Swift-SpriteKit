@@ -20,7 +20,8 @@ class MovementComponent: GKComponent {
     var node: SKNode?
     var speed: CGFloat
     var direction: Direction = .none
-
+    var animationComp: AnimationComponent?
+    
     init(speed: CGFloat) {
         self.speed = speed
         super.init()
@@ -32,6 +33,7 @@ class MovementComponent: GKComponent {
     
     override func didAddToEntity() {
         node = entity?.component(ofType: GKSKNodeComponent.self)?.node
+        animationComp = entity?.component(ofType: AnimationComponent.self)
     }
     
     override func update(deltaTime seconds: TimeInterval) {
@@ -40,5 +42,11 @@ class MovementComponent: GKComponent {
     
     public func change(direction: Direction) {
         self.direction = direction
+        if(direction == .none) {
+            animationComp?.playIdle()
+        } else {
+            node?.xScale = abs(node?.xScale ?? 1) * direction.rawValue
+            animationComp?.playRun()
+        }
     }
 }
