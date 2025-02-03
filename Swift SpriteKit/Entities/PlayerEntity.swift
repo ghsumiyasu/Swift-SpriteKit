@@ -30,7 +30,7 @@ class PlayerEntity: GKEntity {
                 range: 1...12), timePerFrame: 0.1)))
         self.addComponent(animationComp)
         
-        let moveComp = MovementComponent(speed: 5)
+        let moveComp = MovementComponent(speed: 1)
         self.addComponent(moveComp)
     }
     
