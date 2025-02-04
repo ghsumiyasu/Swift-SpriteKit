@@ -20,7 +20,7 @@ class GameScene: SKScene {
         entityManager?.add(entity: playerEntity)
         self.playerEntity = playerEntity
         
-        let scenarioEntity = ScenarioEntity(named: "Level01.sks")
+        let scenarioEntity = ScenarioEntity(named: "Level01.sks", entityManager: entityManager!)
         entityManager?.add(entity: scenarioEntity)
         
         let cameraNode = SKCameraNode()
