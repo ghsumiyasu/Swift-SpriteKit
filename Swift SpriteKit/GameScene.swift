@@ -16,7 +16,10 @@ class GameScene: SKScene {
     
     override func sceneDidLoad() {
         entityManager = SKEntityManager(scene: self)
-        let playerEntity = PlayerEntity()
+        
+        self.physicsWorld.contactDelegate = self
+        
+        let playerEntity = PlayerEntity(entityManager: entityManager!)
         entityManager?.add(entity: playerEntity)
         self.playerEntity = playerEntity
         
@@ -27,6 +30,9 @@ class GameScene: SKScene {
         self.addChild(cameraNode)
         self.camera = cameraNode
         self.camera?.setScale(2.5)
+        
+        let spawEnemies = SpawEnemyEntity(entityManager: entityManager!)
+        entityManager?.add(entity: spawEnemies)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
