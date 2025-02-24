@@ -4,9 +4,7 @@
 //
 //  Created by Desenvolvimento on 2024/12/22.
 //  Repositorio criado seguindo o tutorial do youtuber Behind Pixel Lab
-//  https://www.youtube.com/watch?v=zoUwIH7g-wY
-//  https://www.youtube.com/watch?v=lG-DiB81dT4
-//  https://www.youtube.com/watch?v=Nj49CKbJlXw
+//
 
 import UIKit
 import SpriteKit
